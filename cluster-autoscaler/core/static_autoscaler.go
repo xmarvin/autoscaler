@@ -759,7 +759,7 @@ func (a *StaticAutoscaler) onEmptyCluster(status string, emitEvent bool) {
 	a.scaleDown.CleanUpUnneededNodes()
 	// updates metrics related to empty cluster's state.
 	metrics.UpdateClusterSafeToAutoscale(false)
-	metrics.UpdateNodesCount(0, 0, 0, 0, 0)
+	metrics.UpdateNodesCount("", 0, 0, 0, 0, 0)
 	if a.AutoscalingContext.WriteStatusConfigMap {
 		utils.WriteStatusConfigMap(a.AutoscalingContext.ClientSet, a.AutoscalingContext.ConfigNamespace, status, a.AutoscalingContext.LogRecorder, a.AutoscalingContext.StatusConfigMapName)
 	}

@@ -732,6 +732,10 @@ func (csr *ClusterStateRegistry) GetClusterReadiness() Readiness {
 	return csr.totalReadiness
 }
 
+func (csr *ClusterStateRegistry) GetPerGroupReadiness() map[string]Readiness {
+	return csr.perNodeGroupReadiness
+}
+
 func buildHealthStatusNodeGroup(isReady bool, readiness Readiness, acceptable AcceptableRange, minSize, maxSize int) api.ClusterAutoscalerCondition {
 	condition := api.ClusterAutoscalerCondition{
 		Type: api.ClusterAutoscalerHealth,

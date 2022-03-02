@@ -111,7 +111,7 @@ var (
 			Namespace: caNamespace,
 			Name:      "nodes_count",
 			Help:      "Number of nodes in cluster.",
-		}, []string{"state"},
+		}, []string{"state", "group"},
 	)
 
 	nodeGroupsCount = k8smetrics.NewGaugeVec(
@@ -339,13 +339,12 @@ func UpdateClusterSafeToAutoscale(safe bool) {
 	}
 }
 
-// UpdateNodesCount records the number of nodes in cluster
-func UpdateNodesCount(ready, unready, starting, longUnregistered, unregistered int) {
-	nodesCount.WithLabelValues(readyLabel).Set(float64(ready))
-	nodesCount.WithLabelValues(unreadyLabel).Set(float64(unready))
-	nodesCount.WithLabelValues(startingLabel).Set(float64(starting))
-	nodesCount.WithLabelValues(longUnregisteredLabel).Set(float64(longUnregistered))
-	nodesCount.WithLabelValues(unregisteredLabel).Set(float64(unregistered))
+func UpdateNodesCount(group string, ready, unready, starting, longUnregistered, unregistered int) {
+	nodesCount.WithLabelValues(readyLabel, group).Set(float64(ready))
+	nodesCount.WithLabelValues(unreadyLabel, group).Set(float64(unready))
+	nodesCount.WithLabelValues(startingLabel, group).Set(float64(starting))
+	nodesCount.WithLabelValues(longUnregisteredLabel, group).Set(float64(longUnregistered))
+	nodesCount.WithLabelValues(unregisteredLabel, group).Set(float64(unregistered))
 }
 
 // UpdateNodeGroupsCount records the number of node groups managed by CA
